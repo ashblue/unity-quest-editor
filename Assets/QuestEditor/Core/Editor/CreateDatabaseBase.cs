@@ -9,7 +9,7 @@ namespace Adnc.Quest {
 		// Implement this method in the sub-class where you want to call CreateDatabase
 		// [MenuItem("Assets/Create/Quest Database")]
 		public static void CreateDatabase (System.Type databaseType, string fileName) {
-			UnityEngine.Object asset = (UnityEngine.Object)Activator.CreateInstance(databaseType);
+			UnityEngine.Object asset = (UnityEngine.Object)ScriptableObject.CreateInstance(databaseType);
 
 			AssetDatabase.CreateAsset(asset, string.Format("{0}/{1}.asset", GetPath(), fileName));
 			AssetDatabase.SaveAssets();
