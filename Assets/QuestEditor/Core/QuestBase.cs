@@ -8,6 +8,5 @@ namespace Adnc.Quest {
 		public string displayName = "Untitled";
 		public QuestStatus status = QuestStatus.Undefined;
 		public string description = "";
-		public bool _expanded = false; // Whether or not this item should be expanded in the editor
 	}
 }

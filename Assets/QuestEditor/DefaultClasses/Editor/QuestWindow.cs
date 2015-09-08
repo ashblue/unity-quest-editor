@@ -7,6 +7,7 @@ namespace Adnc.Quest {
 	public class QuestWindow : QuestWindowBase<QuestDatabase, QuestEntry> {
 		string filter;
 		int deleteIndex = -1;
+		float textAreaWidth = 250f;
 
 		// Loop vars
 		QuestEntry quest;
@@ -58,10 +59,44 @@ namespace Adnc.Quest {
 				}
 				
 				if (quest.expanded) {
-					BeginIndent(20f);
+					BeginIndent(25f);
 					
 					quest.displayName = EditorGUILayout.TextField("Display Name", quest.displayName);
 					quest.id = EditorGUILayout.TextField("ID", quest.id);
+					quest.status = (QuestStatus)EditorGUILayout.EnumPopup("Status", quest.status);
+
+					/***** BEGIN Description *****/
+					EditorGUILayout.BeginHorizontal();
+
+					EditorGUILayout.BeginVertical();
+					EditorGUILayout.LabelField("Description");
+					quest.description = GUILayout.TextArea(quest.description, GUILayout.MaxHeight(60f), GUILayout.MaxWidth(textAreaWidth));
+					EditorGUILayout.EndVertical();
+
+					EditorGUILayout.BeginVertical();
+					EditorGUILayout.LabelField("Notes");
+					quest.notes = GUILayout.TextArea(quest.notes, GUILayout.MaxHeight(60f), GUILayout.MaxWidth(textAreaWidth));
+					EditorGUILayout.EndVertical();
+
+					EditorGUILayout.EndHorizontal();
+					/***** END Description *****/
+
+					/***** BEGIN Messages *****/
+					EditorGUILayout.BeginHorizontal();
+					
+					EditorGUILayout.BeginVertical();
+					EditorGUILayout.LabelField("Success Message");
+					quest.successMessage = GUILayout.TextArea(quest.successMessage, GUILayout.MaxHeight(60f), GUILayout.MaxWidth(textAreaWidth));
+					EditorGUILayout.EndVertical();
+					
+					EditorGUILayout.BeginVertical();
+					EditorGUILayout.LabelField("Fail Message");
+					quest.failMessage = GUILayout.TextArea(quest.failMessage, GUILayout.MaxHeight(60f), GUILayout.MaxWidth(textAreaWidth));
+					EditorGUILayout.EndVertical();
+					
+					EditorGUILayout.EndHorizontal();
+					/***** END Messages *****/
+					
 //					quest.defaultValue = EditorGUILayout.Toggle("Default Value", quest.defaultValue);
 //					
 //					EditorGUILayout.LabelField("Notes");
