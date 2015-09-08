@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 108f503a56512415f951d75d9aa0bf1c, type: 3}
+  m_Name: QuestDatabase
+  m_EditorClassIdentifier: 
+  title: Untitled
+  description: 
+  _quests:
+  - id: 
+    displayName: Untitled
+    status: 0
+    description: 
+    notes: 
+    successMessage: 
+    failMessage: 
+    expanded: 0
+    _tasks: []
+  - id: 
+    displayName: Untitled
+    status: 0
+    description: 
+    notes: 
+    successMessage: 
+    failMessage: 
+    expanded: 0
+    _tasks: []
+  - id: 
+    displayName: Untitled
+    status: 0
+    description: 
+    notes: 
+    successMessage: 
+    failMessage: 
+    expanded: 1
+    _tasks:
+    - id: 
+      displayName: Untitled
+      status: 0
+      description: 
+    - id: 
+      displayName: Untitled
+      status: 0
+      description: 
+    - id: 
+      displayName: Untitled
+      status: 0
+      description: 
+    - id: 
+      displayName: Untitled
+      status: 0
+      description: 
+  - id: TEST
+    displayName: Test Quest
+    status: 0
+    description: 
+    notes: 
+    successMessage: 
+    failMessage: 
+    expanded: 0
+    _tasks:
+    - id: 
+      displayName: Task 2
+      status: 2
+      description: 
+    - id: 
+      displayName: Untitled
+      status: 0
+      description: Gotham's been good to our family, but the city's been suffering.
+        People less fortunate than us have been enduring very hard times. So we built
+        a new, cheap, public transportation system to unite the city. And at the center,
+        Wayne tower.
+    - id: 
+      displayName: Task 1
+      status: 2
+      description: 
