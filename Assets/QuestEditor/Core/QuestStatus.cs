@@ -7,7 +7,6 @@ namespace Adnc.Quest {
 		Undefined,
 		Ongoing,
 		Success,
-		Failure,
-		Abandoned
+		Failure
 	}
 }
