@@ -21,6 +21,7 @@ MonoBehaviour:
     successMessage: 
     failMessage: 
     expanded: 0
+    sideQuest: 0
     _tasks: []
   - id: 
     displayName: Untitled
@@ -29,6 +30,7 @@ MonoBehaviour:
     successMessage: 
     failMessage: 
     expanded: 0
+    sideQuest: 0
     _tasks: []
   - id: 
     displayName: Untitled
@@ -37,6 +39,7 @@ MonoBehaviour:
     successMessage: 
     failMessage: 
     expanded: 0
+    sideQuest: 0
     _tasks:
     - id: 
       displayName: Untitled
@@ -56,7 +59,8 @@ MonoBehaviour:
     notes: 
     successMessage: 
     failMessage: 
-    expanded: 0
+    expanded: 1
+    sideQuest: 0
     _tasks:
     - id: 
       displayName: Task 2

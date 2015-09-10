@@ -10,6 +10,8 @@ namespace Adnc.Quest {
 		Dictionary<string, QuestEntryDetails> questLib;
 		Dictionary<string, QuestTaskDetails> questTaskLib;
 
+		QuestConditions status;
+
 		void Awake () {
 			// Populate defenition dictionary with error checking
 			foreach (QuestEntry quest in defenitions.Quests) {
@@ -28,6 +30,10 @@ namespace Adnc.Quest {
 					};
 				}
 			}
+
+			status = new QuestConditions {
+				ctrl = this
+			};
 		}
 
 		// @TODO Test and make sure sorting actually works how it should
@@ -35,7 +41,7 @@ namespace Adnc.Quest {
 		public List<QuestEntryDetails> GetActive () {
 			List<QuestEntryDetails> active = new List<QuestEntryDetails>();
 			foreach (QuestEntry q in defenitions.Quests) {
-				QuestEntryDetails quest = GetQuest(q.id);
+				QuestEntryDetails quest = _GetQuest(q.id);
 				if (quest.status != QuestStatus.Undefined) active.Add(quest);
 			}
 
@@ -47,7 +53,7 @@ namespace Adnc.Quest {
 			return active;
 		}
 
-		QuestEntryDetails GetQuest (string id) {
+		public QuestEntryDetails _GetQuest (string id) {
 			QuestEntryDetails quest;
 			if (questLib.TryGetValue(id, out quest)) {
 				return quest;
@@ -57,9 +63,9 @@ namespace Adnc.Quest {
 			}
 		}
 
-		QuestTaskDetails GetQuest (string id, string taskId) {
-			QuestEntryDetails quest = GetQuest(id);
-			QuestTaskDetails task = GetTask(id);
+		public QuestTaskDetails _GetQuest (string id, string taskId) {
+			QuestEntryDetails quest = _GetQuest(id);
+			QuestTaskDetails task = _GetTask(id);
 
 			if (quest == null || task == null) return null;
 
@@ -77,7 +83,7 @@ namespace Adnc.Quest {
 		/// </summary>
 		/// <returns>The task.</returns>
 		/// <param name="id">Identifier.</param>
-		QuestTaskDetails GetTask (string id) {
+		public QuestTaskDetails _GetTask (string id) {
 			QuestTaskDetails task;
 			if (questTaskLib.TryGetValue(id, out task)) {
 				return task;
@@ -88,14 +94,14 @@ namespace Adnc.Quest {
 		}
 
 		void SetQuest (string id, QuestStatus status) {
-			QuestEntryDetails quest = GetQuest(id);
+			QuestEntryDetails quest = _GetQuest(id);
 			if (quest != null) {
 				quest.status = status;
 			}
 		}
 
 		void SetQuest (string id, string idTask, QuestStatus status) {
-			QuestTaskDetails task = GetQuest(id, idTask);
+			QuestTaskDetails task = _GetQuest(id, idTask);
 			if (task != null) {
 				task.status = status;
 			}
@@ -103,14 +109,13 @@ namespace Adnc.Quest {
 
 		// User boots up and starts a quest
 		public void BeginQuest (string id) {
-
 			// Get the quest and first task, mark them as ongoing, set start timestamp
-			QuestEntryDetails quest = GetQuest(id);
+			QuestEntryDetails quest = _GetQuest(id);
 			if (quest != null) {
 				quest.status = QuestStatus.Ongoing;
 				quest.startTime = System.DateTime.Now;
 				if (quest.defenition.Tasks != null && quest.defenition.Tasks.Count > 0) {
-					QuestTaskDetails task = GetQuest(id, quest.defenition.Tasks[0].id);
+					QuestTaskDetails task = _GetQuest(id, quest.defenition.Tasks[0].id);
 					if (task != null) {
 						// @TODO Poll the requirements of the task to check if they've already been completed
 						task.status = QuestStatus.Ongoing;
@@ -126,7 +131,7 @@ namespace Adnc.Quest {
 		}
 
 		public void EndQuest (string id, bool success = true) {
-			QuestEntryDetails quest = GetQuest(id);
+			QuestEntryDetails quest = _GetQuest(id);
 			if (quest == null) return;
 
 			if (success) {
@@ -137,6 +142,7 @@ namespace Adnc.Quest {
 			}
 		}
 
+		// @TODO Incomplete
 		public void NextTask (string id) {
 			// Update current quest task and mark as success
 
@@ -144,37 +150,8 @@ namespace Adnc.Quest {
 			// Mark next quest task as ongoing
 		}
 
-		// Check for a specific status
-		public bool IsQuestStatus (string id, QuestStatus status) {
-
-			return true;
-		}
-
-		public bool IsQuestStatus (string id, string taskId, QuestStatus status) {
-
-			return true;
-		}
-
-		public bool IsQuestActive (string id) {
-
-			return true;
-		}
-
-		public bool IsQuestActive (string id, string taskId) {
-			// Parent must be ongoing and the entry
-			return true;
-		}
-
-		public bool IsQuestStarted (string id) {
-			return true;
-		}
-
-		public bool IsQuestStarted (string id, string taskId) {
-			return true;
-			// Entry and parent must not be undefined
-		}
-
-		// Checks if the designated quest task is complete. Meant to be run when talking with specific characters,
+		// @TODO Incomplete
+		// Checks if the designated quest task requirements are complete. Meant to be run when talking with specific characters,
 		// interacting with items, or at specific locations.
 		public bool CheckQuestTask (string id, string idKey) {
 			// Skips the item if it isn't ongoing
