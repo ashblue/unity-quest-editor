@@ -7,10 +7,10 @@ namespace Adnc.Quest {
 	public class QuestController : MonoBehaviour {
 		[SerializeField] QuestDatabase defenitions;
 
-		Dictionary<string, QuestEntryDetails> questLib;
-		Dictionary<string, QuestTaskDetails> questTaskLib;
+		Dictionary<string, QuestEntryDetails> questLib = new Dictionary<string, QuestEntryDetails>();
+		Dictionary<string, QuestTaskDetails> questTaskLib = new Dictionary<string, QuestTaskDetails>();
 
-		QuestConditions status;
+		public QuestConditions status;
 
 		void Awake () {
 			// Populate defenition dictionary with error checking

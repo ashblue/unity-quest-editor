@@ -7,8 +7,19 @@ namespace Adnc.Quest {
 		public string notes = "";
 		public string successMessage = "";
 		public string failMessage = "";
+		public bool sideQuest;
+
 		public bool expanded = false;
 
-		public abstract List<T> Tasks { get; set; }
+		public List<T> _tasks = new List<T>();
+		public virtual List<T> Tasks { 
+			get {
+				return _tasks;
+			}
+
+			set {
+				_tasks = value;
+			}
+		}
 	}
 }

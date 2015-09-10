@@ -9,8 +9,15 @@ namespace Adnc.Quest {
 		[TextArea(3, 5)]
 		public string description;
 
-		public abstract List<T> Quests { get; set; }
-//		public abstract System.Type QuestEntry { get; }
-//		public abstract System.Type QuestTask { get; }
+		[HideInInspector]
+		public List<T> _quests = new List<T>();
+		public virtual List<T> Quests {
+			get {
+				return _quests;
+			}
+			set {
+				_quests = value;
+			}
+		}
 	}
 }
