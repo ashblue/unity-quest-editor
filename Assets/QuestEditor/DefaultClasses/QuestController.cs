@@ -26,7 +26,6 @@ namespace Adnc.Quest {
 					Debug.Assert(questTaskLib.ContainsKey(task.id), string.Format("Duplicate QuestTask ID on {0}", task.displayName));
 					questTaskLib[task.id] = new QuestTaskDetails {
 						defenition = task
-						// @TODO Set task index
 					};
 				}
 			}
@@ -125,57 +124,84 @@ namespace Adnc.Quest {
 			}
 		}
 
-		// @TODO Make abstract to force the implementation
-		public virtual void Reward (QuestEntryDetails quest) {
-			// Distribute rewards from the quest, show notifications, ect.
-		}
-
 		public void EndQuest (string id, bool success = true) {
 			QuestEntryDetails quest = _GetQuest(id);
 			if (quest == null) return;
 
 			if (success) {
 				quest.status = QuestStatus.Success;
-				Reward(quest);
+				quest.defenition.Reward();
 			} else {
 				quest.status = QuestStatus.Failure;
 			}
 		}
 
 		// @TODO Incomplete
-		public void NextTask (string id) {
-			// Update current quest task and mark as success
+		public bool NextTask (string questId) {
+			if (status.IsQuestActive(questId)) {
+				Debug.LogErrorFormat("Quest {0} is no longer active or not started.", questId);
+				return false;
+			}
+			
+			QuestEntryDetails quest = _GetQuest(questId);
+			QuestTaskDetails task = GetCurrentTask(questId);
 
-			// No more quests? Mark as success and end quest
-			// Mark next quest task as ongoing
-		}
+			// Checks if all requirements have been fullfilled on the current task
+			if (task.defenition.CheckRequirements()) {
+				task.status = QuestStatus.Success;
 
-		// @TODO Incomplete
-		// Checks if the designated quest task requirements are complete. Meant to be run when talking with specific characters,
-		// interacting with items, or at specific locations.
-		public bool CheckQuestTask (string id, string idKey) {
-			// Skips the item if it isn't ongoing
+				if (quest.currentTaskIndex + 1 >= quest.defenition.Tasks.Count) {
+					// Quest has been completed
+					EndQuest(questId);
+					Debug.LogWarning("Quest {0} was marked as success from calling NextTask(). Please use EndQuest() to mark a quest as complete.");
+				} else {
+					// Update the next task and quest index
+					quest.currentTaskIndex += 1;
+					quest.status = QuestStatus.Ongoing;
+				}
 
-			// Checks if the target quest task requirements are complete
-			// If so it will run NextTask
+				quest.currentTaskIndex += 1;
+			} else {
+				return false;
+			}
 
-			// Only returns true if the quest check occured and was successful for the first time
 			return true;
 		}
 
-		// @NOTE Update quest doesn't necessarily make sense, we will never need to individually call a quest task ID
-		// The quests will always be updated in sequential order (1, 2, 3, 4, 5)
-//		public void UpdateQuest (string id, string idKey, QuestStatus status) {
-			// Set the current task index to this key
+		public QuestTaskDetails GetCurrentTask (string questId) {
+			QuestEntryDetails quest = _GetQuest(questId);
+			return _GetTask(quest.defenition.Tasks[quest.currentTaskIndex].id);
+		}
 
-			// status success / fail, run EndQuest
-			// status ongoing 
+		public QuestText GetQuestText (string questId) {
+			QuestEntryDetails quest = _GetQuest(questId);
+			if (quest == null) return null;
+			
+			QuestText questText = new QuestText {
+				title = quest.Title,
+				description = quest.defenition.description
+			};
+			
+			if (quest.status == QuestStatus.Success) {
+				questText.description += string.Format(" \n {0}", quest.defenition.successMessage);
+			} else if (quest.status == QuestStatus.Failure) {
+				questText.description += string.Format(" \n {0}", quest.defenition.failMessage);
+			} else {
+				// Generate a list of tasks
+				List<QuestTaskText> tasks = new List<QuestTaskText>();
+				foreach (QuestTask t in quest.defenition.Tasks) {
+					QuestTaskDetails task = _GetTask(t.id);
+					tasks.Add(new QuestTaskText {
+						title = t.displayName,
+						status = task.status
+					});
+				}
 
-			// Quest must be ongoing in order to update it
-			// Mark all previous quest entry statuses as success
+				questText.tasks = tasks;
+			}
 
-			// If we are updating the final task, also mark the parent as success or fail
-//		}
+			return questText;
+		}
 	}
 }
 

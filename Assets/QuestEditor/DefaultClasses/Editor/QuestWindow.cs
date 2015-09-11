@@ -75,7 +75,8 @@ namespace Adnc.Quest {
 					
 					quest.displayName = EditorGUILayout.TextField("Display Name", quest.displayName);
 					quest.id = EditorGUILayout.TextField("ID", quest.id);
-
+					quest.sideQuest = EditorGUILayout.Toggle("Sidequest?", quest.sideQuest);
+					
 					/***** BEGIN Description *****/
 					EditorGUILayout.BeginHorizontal();
 
@@ -119,20 +120,15 @@ namespace Adnc.Quest {
 						task = questTmp[i].Tasks[j];
 
 						EditorGUILayout.LabelField(string.Format("{0}. {1}", j + 1, task.displayName), EditorStyles.boldLabel);
-						task.displayName = EditorGUILayout.TextField("Display Name", task.displayName);
+						task.displayName = EditorGUILayout.TextField("Display Text", task.displayName);
 						task.id = EditorGUILayout.TextField("ID", task.id);
 
-						EditorGUILayout.BeginHorizontal(); // BEGIN Meta
+						EditorGUILayout.BeginHorizontal(GUILayout.MaxWidth(200f)); // BEGIN Meta
 
-						EditorGUILayout.BeginVertical();
-						EditorGUILayout.LabelField("Description");
-						task.description = GUILayout.TextArea(task.description, GUILayout.MaxHeight(60f), GUILayout.MaxWidth(textAreaWidth));
-						EditorGUILayout.EndVertical();
-
-						if (GUILayout.Button("Delete") && ConfirmDelete("Delete Task", task.displayName)) RemoveTask(i, j);
 						if (GUILayout.Button("Up")) MoveTaskUp(i, j);
 						if (GUILayout.Button("Down")) MoveTaskDown(i, j);
-
+						if (GUILayout.Button("Delete") && ConfirmDelete("Delete Task", task.displayName)) RemoveTask(i, j);
+						
 						EditorGUILayout.EndHorizontal(); // END Meta
 
 						EditorGUILayout.EndVertical(); // END Wrapper
@@ -168,7 +164,11 @@ namespace Adnc.Quest {
 		}
 
 		void AddTask (QuestEntry quest) {
-			quest.Tasks.Add(new QuestTask());
+			QuestTask task = new QuestTask {
+				id = System.Guid.NewGuid().ToString()
+			};
+			quest.Tasks.Add(task);
+
 			EditorUtility.SetDirty(database);
 		}
 

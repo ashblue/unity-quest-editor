@@ -8,6 +8,7 @@ namespace Adnc.Quest {
 		public string successMessage = "";
 		public string failMessage = "";
 		public bool sideQuest;
+		public string description = "";
 
 		public bool expanded = false;
 
@@ -21,5 +22,7 @@ namespace Adnc.Quest {
 				_tasks = value;
 			}
 		}
+
+		public abstract void Reward ();
 	}
 }

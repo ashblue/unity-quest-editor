@@ -30,13 +30,6 @@ namespace Adnc.Quest {
 
 		Vector2 scrollPos;
 
-		// @NOTE Must be implemented in the child class
-		// [MenuItem("Window/Quest Editor")]
-		// public static void ShowEditor () {
-		//     // Show existing window instance. If one doesn't exist, make one.
-		//     EditorWindow.GetWindow<CurrentClassType>("Quest Editor");
-		// }
-
 		public virtual void OnEnable () {
 			containerPadding = new GUIStyle();
 			containerPadding.padding = new RectOffset(paddingSize, paddingSize, paddingSize, paddingSize);

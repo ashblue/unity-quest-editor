@@ -14,48 +14,18 @@ MonoBehaviour:
   title: Untitled
   description: 
   _quests:
-  - id: 
-    displayName: Untitled
-    description: 
-    notes: 
-    successMessage: 
-    failMessage: 
-    sideQuest: 0
-    expanded: 0
-    _tasks: []
-  - id: 
-    displayName: Untitled
-    description: 
-    notes: 
-    successMessage: 
-    failMessage: 
-    sideQuest: 0
-    expanded: 0
-    _tasks: []
-  - id: 
-    displayName: Untitled
-    description: 
-    notes: 
-    successMessage: 
-    failMessage: 
-    sideQuest: 0
-    expanded: 0
-    _tasks: []
   - id: TEST
     displayName: Test Quest
-    description: 
     notes: 
     successMessage: 
     failMessage: 
     sideQuest: 0
-    expanded: 1
+    description: 
+    expanded: 0
     _tasks:
     - id: 
-      displayName: Untitled
-      description: 
+      displayName: a
     - id: 
       displayName: Untitled
-      description: 
     - id: 
       displayName: Untitled
-      description: 
