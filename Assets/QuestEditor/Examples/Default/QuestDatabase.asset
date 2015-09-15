@@ -21,7 +21,7 @@ MonoBehaviour:
     failMessage: 
     sideQuest: 0
     description: 
-    expanded: 0
+    expanded: 1
     _tasks:
     - id: 
       displayName: a
